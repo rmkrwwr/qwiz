@@ -1,7 +1,15 @@
+"""
+Модуль команд приложения.
+
+Содержит функции для обработки команд от пользователя:
+показа списка тестов и запуска выбранной викторины.
+"""
+
 from . import loader, engine, results
 
 
 def show_available_quizzes():
+    """Показывает список доступных викторин."""
     quiz_files = loader.get_quiz_list()
     if not quiz_files:
         print("Тесты не найдены")
@@ -13,6 +21,12 @@ def show_available_quizzes():
 
 
 def run_selected_quiz(quiz_name=None, shuffle=False):
+    """Запускает выбранную викторину.
+
+    Args:
+        quiz_name (str, optional): название файла викторины. По умолчанию None.
+        shuffle (bool, optional): флаг перемешивания вопросов. По умолчанию False.
+    """
     quiz_files = loader.get_quiz_list()
     if not quiz_files:
         print("Нет доступных тестов")

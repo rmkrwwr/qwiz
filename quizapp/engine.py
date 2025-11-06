@@ -1,7 +1,26 @@
+"""
+Модуль движка викторины.
+
+Содержит основную логику проведения викторины,
+включая запуск тестов, обработку ответов и подсчет результатов.
+"""
+
 import random
 
 
 def start_quiz(quiz_data, mix_questions=False):
+    """Запускает процесс прохождения викторины.
+
+    Args:
+        quiz_data (dict): Данные викторины с вопросами и ответами
+        mix_questions (bool, optional): Флаг перемешивания вопросов. По умолчанию False.
+
+    Returns:
+        tuple: Кортеж из двух чисел (правильные_ответы, всего_вопросов)
+
+    Example:
+        >>> correct, total = start_quiz(quiz_data, mix_questions=True)
+    """
     if not quiz_data:
         return 0, 0
 
