@@ -16,7 +16,7 @@ CREATE DATABASE quizapp_db;
     python main.py run 1 --shuffle  запустить викторину 1 с перемешиванием
 
 
-# Запуск всех тестов
+# Запуск всех тестов проверить что все работает
 python -m unittest discover tests -v
 
 # Запуск конкретного тестового файла
@@ -33,3 +33,17 @@ python -m unittest discover tests -v
 
 # Запуск до первого упавшего теста
 python -m unittest discover tests -f
+
+
+
+Что делают тесты:
+
+    TestDatabase - проверяет подключение к БД, создание таблиц
+
+    TestLoader - проверяет загрузку тестов из БД
+
+    TestEngine - проверяет запуск викторины, обработку ответов
+
+    TestResults - проверяет показ результатов
+
+    TestCommands - проверяет команды приложения
