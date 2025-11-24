@@ -75,6 +75,7 @@ def init_database():
     finally:
         conn.close()
 
+
 def migrate_json_to_db(json_folder="tests"):
     """Мигрирует данные из JSON-файлов в PostgreSQL базу данных."""
 
@@ -102,6 +103,9 @@ def migrate_json_to_db(json_folder="tests"):
 
     try:
         cursor = conn.cursor()
+
+        # СНАЧАЛА удаляем результаты, ПОТОМ вопросы, ПОТОМ викторины
+        cursor.execute("DELETE FROM quiz_results")
         cursor.execute("DELETE FROM questions")
         cursor.execute("DELETE FROM quizzes")
 
@@ -117,6 +121,7 @@ def migrate_json_to_db(json_folder="tests"):
                     (quiz_data['name'], quiz_data.get('description', ''))
                 )
                 quiz_id = cursor.fetchone()[0]
+
                 for question in quiz_data['questions']:
                     options = question['options']
                     while len(options) < 4:
