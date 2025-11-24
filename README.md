@@ -1,10 +1,10 @@
-#PostgreSQL:
+# PostgreSQL:
 psql -U postgres
 
-#бд создается 
+# бд создается 
 CREATE DATABASE quizapp_db;
 
-#выйти 
+# выйти 
 \q
 
     python main.py init  создать таблицы в БД
