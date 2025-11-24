@@ -72,9 +72,6 @@
   <h1>Исходный код main</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">Основной модуль для запуска приложения викторины.</span>
-
-<span class="sd">Этот модуль предоставляет точку входа в приложение,</span>
-<span class="sd">обрабатывает аргументы командной строки и запускает викторину.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">argparse</span>
@@ -89,29 +86,25 @@
 <div class="viewcode-block" id="main">
 <a class="viewcode-back" href="../main.html#main.main">[документация]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Основная функция приложения.</span>
-
-<span class="sd">    Обрабатывает аргументы командной строки и выполняет соответствующие команды.</span>
-
-<span class="sd">    Команды:</span>
-<span class="sd">        list - Показать список доступных тестов</span>
-<span class="sd">        run - Запустить выбранный тест</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Основная функция приложения.&quot;&quot;&quot;</span>
     <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;Система тестирования&quot;</span><span class="p">)</span>
     <span class="n">subparsers</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">add_subparsers</span><span class="p">(</span><span class="n">dest</span><span class="o">=</span><span class="s2">&quot;command&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Команды&quot;</span><span class="p">)</span>
 
+    <span class="n">init_parser</span> <span class="o">=</span> <span class="n">subparsers</span><span class="o">.</span><span class="n">add_parser</span><span class="p">(</span><span class="s2">&quot;init&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Инициализировать базу данных&quot;</span><span class="p">)</span>
     <span class="n">list_parser</span> <span class="o">=</span> <span class="n">subparsers</span><span class="o">.</span><span class="n">add_parser</span><span class="p">(</span><span class="s2">&quot;list&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Показать список тестов&quot;</span><span class="p">)</span>
 
     <span class="n">run_parser</span> <span class="o">=</span> <span class="n">subparsers</span><span class="o">.</span><span class="n">add_parser</span><span class="p">(</span><span class="s2">&quot;run&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Запустить тест&quot;</span><span class="p">)</span>
-    <span class="n">run_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;quiz_name&quot;</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s2">&quot;?&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Название файла теста&quot;</span><span class="p">)</span>
+    <span class="n">run_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;quiz_id&quot;</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s2">&quot;?&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;ID теста&quot;</span><span class="p">)</span>
     <span class="n">run_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--shuffle&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Перемешать вопросы&quot;</span><span class="p">)</span>
 
     <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
 
-    <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">command</span> <span class="o">==</span> <span class="s2">&quot;list&quot;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">command</span> <span class="o">==</span> <span class="s2">&quot;init&quot;</span><span class="p">:</span>
+        <span class="n">commands</span><span class="o">.</span><span class="n">init_database</span><span class="p">()</span>
+    <span class="k">elif</span> <span class="n">args</span><span class="o">.</span><span class="n">command</span> <span class="o">==</span> <span class="s2">&quot;list&quot;</span><span class="p">:</span>
         <span class="n">commands</span><span class="o">.</span><span class="n">show_available_quizzes</span><span class="p">()</span>
     <span class="k">elif</span> <span class="n">args</span><span class="o">.</span><span class="n">command</span> <span class="o">==</span> <span class="s2">&quot;run&quot;</span><span class="p">:</span>
-        <span class="n">commands</span><span class="o">.</span><span class="n">run_selected_quiz</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">quiz_name</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">shuffle</span><span class="p">)</span>
+        <span class="n">commands</span><span class="o">.</span><span class="n">run_selected_quiz</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">quiz_id</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">shuffle</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">parser</span><span class="o">.</span><span class="n">print_help</span><span class="p">()</span></div>
 

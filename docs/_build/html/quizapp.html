@@ -49,6 +49,7 @@
 <li class="toctree-l2 current"><a class="current reference internal" href="#">quizapp package</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#module-quizapp.commands">quizapp.commands module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#quizapp.commands.init_database"><code class="docutils literal notranslate"><span class="pre">init_database()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#quizapp.commands.run_selected_quiz"><code class="docutils literal notranslate"><span class="pre">run_selected_quiz()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#quizapp.commands.show_available_quizzes"><code class="docutils literal notranslate"><span class="pre">show_available_quizzes()</span></code></a></li>
 </ul>
@@ -59,6 +60,8 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#module-quizapp.loader">quizapp.loader module</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#quizapp.loader.get_quiz_list"><code class="docutils literal notranslate"><span class="pre">get_quiz_list()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#quizapp.loader.get_quiz_list_files"><code class="docutils literal notranslate"><span class="pre">get_quiz_list_files()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#quizapp.loader.load_quiz_from_db"><code class="docutils literal notranslate"><span class="pre">load_quiz_from_db()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#quizapp.loader.load_quiz_from_file"><code class="docutils literal notranslate"><span class="pre">load_quiz_from_file()</span></code></a></li>
 </ul>
 </li>
@@ -109,13 +112,19 @@
 <p>Содержит функции для обработки команд от пользователя:
 показа списка тестов и запуска выбранной викторины.</p>
 <dl class="py function">
+<dt class="sig sig-object py" id="quizapp.commands.init_database">
+<span class="sig-prename descclassname"><span class="pre">quizapp.commands.</span></span><span class="sig-name descname"><span class="pre">init_database</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/quizapp/commands.html#init_database"><span class="viewcode-link"><span class="pre">[исходный</span> <span class="pre">код]</span></span></a><a class="headerlink" href="#quizapp.commands.init_database" title="Ссылка на это определение"></a></dt>
+<dd><p>Инициализирует базу данных и мигрирует данные из JSON.</p>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="quizapp.commands.run_selected_quiz">
-<span class="sig-prename descclassname"><span class="pre">quizapp.commands.</span></span><span class="sig-name descname"><span class="pre">run_selected_quiz</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">quiz_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shuffle</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quizapp/commands.html#run_selected_quiz"><span class="viewcode-link"><span class="pre">[исходный</span> <span class="pre">код]</span></span></a><a class="headerlink" href="#quizapp.commands.run_selected_quiz" title="Ссылка на это определение"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">quizapp.commands.</span></span><span class="sig-name descname"><span class="pre">run_selected_quiz</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">quiz_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shuffle</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quizapp/commands.html#run_selected_quiz"><span class="viewcode-link"><span class="pre">[исходный</span> <span class="pre">код]</span></span></a><a class="headerlink" href="#quizapp.commands.run_selected_quiz" title="Ссылка на это определение"></a></dt>
 <dd><p>Запускает выбранную викторину.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Параметры<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>quiz_name</strong> (<em>str</em><em>, </em><em>optional</em>) – название файла викторины. По умолчанию None.</p></li>
+<li><p><strong>quiz_id</strong> (<em>int</em><em>, </em><em>optional</em>) – ID викторины. По умолчанию None.</p></li>
 <li><p><strong>shuffle</strong> (<em>bool</em><em>, </em><em>optional</em>) – флаг перемешивания вопросов. По умолчанию False.</p></li>
 </ul>
 </dd>
@@ -162,10 +171,24 @@
 <section id="module-quizapp.loader">
 <span id="quizapp-loader-module"></span><h2>quizapp.loader module<a class="headerlink" href="#module-quizapp.loader" title="Ссылка на этот заголовок"></a></h2>
 <p>Модуль загрузки данных викторины.</p>
-<p>Обеспечивает загрузку тестов из JSON-файлов и получение списка доступных викторин.</p>
+<p>Обеспечивает загрузку тестов из базы данных.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="quizapp.loader.get_quiz_list">
-<span class="sig-prename descclassname"><span class="pre">quizapp.loader.</span></span><span class="sig-name descname"><span class="pre">get_quiz_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">folder_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'tests'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quizapp/loader.html#get_quiz_list"><span class="viewcode-link"><span class="pre">[исходный</span> <span class="pre">код]</span></span></a><a class="headerlink" href="#quizapp.loader.get_quiz_list" title="Ссылка на это определение"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">quizapp.loader.</span></span><span class="sig-name descname"><span class="pre">get_quiz_list</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/quizapp/loader.html#get_quiz_list"><span class="viewcode-link"><span class="pre">[исходный</span> <span class="pre">код]</span></span></a><a class="headerlink" href="#quizapp.loader.get_quiz_list" title="Ссылка на это определение"></a></dt>
+<dd><p>Получает список доступных викторин.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Результат<span class="colon">:</span></dt>
+<dd class="field-odd"><p>список викторин с id и названиями</p>
+</dd>
+<dt class="field-even">Тип результата<span class="colon">:</span></dt>
+<dd class="field-even"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="quizapp.loader.get_quiz_list_files">
+<span class="sig-prename descclassname"><span class="pre">quizapp.loader.</span></span><span class="sig-name descname"><span class="pre">get_quiz_list_files</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">folder_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'tests'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quizapp/loader.html#get_quiz_list_files"><span class="viewcode-link"><span class="pre">[исходный</span> <span class="pre">код]</span></span></a><a class="headerlink" href="#quizapp.loader.get_quiz_list_files" title="Ссылка на это определение"></a></dt>
 <dd><p>Получает список доступных файлов с викторинами.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Параметры<span class="colon">:</span></dt>
@@ -176,6 +199,23 @@
 </dd>
 <dt class="field-odd">Тип результата<span class="colon">:</span></dt>
 <dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="quizapp.loader.load_quiz_from_db">
+<span class="sig-prename descclassname"><span class="pre">quizapp.loader.</span></span><span class="sig-name descname"><span class="pre">load_quiz_from_db</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">quiz_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quizapp/loader.html#load_quiz_from_db"><span class="viewcode-link"><span class="pre">[исходный</span> <span class="pre">код]</span></span></a><a class="headerlink" href="#quizapp.loader.load_quiz_from_db" title="Ссылка на это определение"></a></dt>
+<dd><p>Загружает данные викторины из базы данных.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Параметры<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>quiz_id</strong> (<em>int</em><em>, </em><em>optional</em>) – ID викторины. По умолчанию None (первая викторина).</p>
+</dd>
+<dt class="field-even">Результат<span class="colon">:</span></dt>
+<dd class="field-even"><p>Словарь с данными викторины или None при ошибке</p>
+</dd>
+<dt class="field-odd">Тип результата<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict or None</p>
 </dd>
 </dl>
 </dd></dl>
@@ -194,12 +234,6 @@
 <dt class="field-odd">Тип результата<span class="colon">:</span></dt>
 <dd class="field-odd"><p>dict or None</p>
 </dd>
-<dt class="field-even">Исключение<span class="colon">:</span></dt>
-<dd class="field-even"><ul class="simple">
-<li><p><strong>FileNotFoundError</strong> – Если файл не найден</p></li>
-<li><p><strong>JSONDecodeError</strong> – Если файл содержит некорректный JSON</p></li>
-</ul>
-</dd>
 </dl>
 </dd></dl>
 
@@ -210,19 +244,21 @@
 <p>Содержит функции для вывода итогов прохождения теста с оценкой результатов</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="quizapp.results.show_quiz_results">
-<span class="sig-prename descclassname"><span class="pre">quizapp.results.</span></span><span class="sig-name descname"><span class="pre">show_quiz_results</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">correct</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">total</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quiz_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quizapp/results.html#show_quiz_results"><span class="viewcode-link"><span class="pre">[исходный</span> <span class="pre">код]</span></span></a><a class="headerlink" href="#quizapp.results.show_quiz_results" title="Ссылка на это определение"></a></dt>
-<dd><p>Отображает результаты прохождения викторины.</p>
+<span class="sig-prename descclassname"><span class="pre">quizapp.results.</span></span><span class="sig-name descname"><span class="pre">show_quiz_results</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">correct</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">total</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quiz_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quiz_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quizapp/results.html#show_quiz_results"><span class="viewcode-link"><span class="pre">[исходный</span> <span class="pre">код]</span></span></a><a class="headerlink" href="#quizapp.results.show_quiz_results" title="Ссылка на это определение"></a></dt>
+<dd><p>Отображает результаты прохождения викторины и сохраняет в БД.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Параметры<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>correct</strong> (<em>int</em>) – количество правильных ответов</p></li>
 <li><p><strong>total</strong> (<em>int</em>) – общее количество вопросов</p></li>
 <li><p><strong>quiz_name</strong> (<em>str</em>) – название викторины</p></li>
+<li><p><strong>quiz_id</strong> (<em>int</em><em>, </em><em>optional</em>) – ID викторины для сохранения результата</p></li>
+<li><p><strong>user_name</strong> (<em>str</em><em>, </em><em>optional</em>) – имя пользователя для сохранения результата</p></li>
 </ul>
 </dd>
 </dl>
 <p class="rubric">Пример</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">show_quiz_results</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="s2">&quot;Математика&quot;</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">show_quiz_results</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="s2">&quot;Математика&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;Иван&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </dd></dl>

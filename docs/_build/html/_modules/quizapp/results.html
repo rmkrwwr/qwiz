@@ -76,19 +76,22 @@
 <span class="sd">Содержит функции для вывода итогов прохождения теста с оценкой результатов</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">database</span>
 
 <div class="viewcode-block" id="show_quiz_results">
 <a class="viewcode-back" href="../../quizapp.html#quizapp.results.show_quiz_results">[документация]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">show_quiz_results</span><span class="p">(</span><span class="n">correct</span><span class="p">,</span> <span class="n">total</span><span class="p">,</span> <span class="n">quiz_name</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Отображает результаты прохождения викторины.</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">show_quiz_results</span><span class="p">(</span><span class="n">correct</span><span class="p">,</span> <span class="n">total</span><span class="p">,</span> <span class="n">quiz_name</span><span class="p">,</span> <span class="n">quiz_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">user_name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Отображает результаты прохождения викторины и сохраняет в БД.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        correct (int): количество правильных ответов</span>
 <span class="sd">        total (int): общее количество вопросов</span>
 <span class="sd">        quiz_name (str): название викторины</span>
+<span class="sd">        quiz_id (int, optional): ID викторины для сохранения результата</span>
+<span class="sd">        user_name (str, optional): имя пользователя для сохранения результата</span>
 
 <span class="sd">    Example:</span>
-<span class="sd">        &gt;&gt;&gt; show_quiz_results(8, 10, &quot;Математика&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; show_quiz_results(8, 10, &quot;Математика&quot;, 1, &quot;Иван&quot;)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">total</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;В тесте нет вопросов&quot;</span><span class="p">)</span>
@@ -110,7 +113,12 @@
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Удовлетворительно&quot;</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Нужно повторить&quot;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=&quot;</span> <span class="o">*</span> <span class="mi">30</span><span class="p">)</span></div>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=&quot;</span> <span class="o">*</span> <span class="mi">30</span><span class="p">)</span>
+
+    <span class="c1"># Сохраняем результат в базу данных</span>
+    <span class="k">if</span> <span class="n">quiz_id</span> <span class="ow">and</span> <span class="n">user_name</span><span class="p">:</span>
+        <span class="n">database</span><span class="o">.</span><span class="n">add_quiz_result</span><span class="p">(</span><span class="n">user_name</span><span class="p">,</span> <span class="n">quiz_id</span><span class="p">,</span> <span class="n">correct</span><span class="p">,</span> <span class="n">total</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Результат сохранен в базе данных&quot;</span><span class="p">)</span></div>
 
 </pre></div>
 
