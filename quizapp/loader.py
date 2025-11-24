@@ -1,11 +1,31 @@
 """
 Модуль загрузки данных викторины.
 
-Обеспечивает загрузку тестов из JSON-файлов и получение списка доступных викторин.
+Обеспечивает загрузку тестов из базы данных.
 """
 
 import json
 import os
+from . import database
+
+def load_quiz_from_db(quiz_id=None):
+    """Загружает данные викторины из базы данных.
+
+    Args:
+        quiz_id (int, optional): ID викторины. По умолчанию None (первая викторина).
+
+    Returns:
+        dict or None: Словарь с данными викторины или None при ошибке
+    """
+    return database.get_quiz_from_db(quiz_id)
+
+def get_quiz_list():
+    """Получает список доступных викторин.
+
+    Returns:
+        list: список викторин с id и названиями
+    """
+    return database.get_available_quizzes()
 
 
 def load_quiz_from_file(file_path):
@@ -16,10 +36,6 @@ def load_quiz_from_file(file_path):
 
     Returns:
         dict or None: Словарь с данными викторины или None при ошибке
-
-    Raises:
-        FileNotFoundError: Если файл не найден
-        JSONDecodeError: Если файл содержит некорректный JSON
     """
     try:
         with open(file_path, 'r', encoding='utf-8') as file:
@@ -32,12 +48,11 @@ def load_quiz_from_file(file_path):
         print(f"Ошибка: файл {file_path} поврежден")
         return None
 
-
-def get_quiz_list(folder_path="tests"):
+def get_quiz_list_files(folder_path="tests"):
     """Получает список доступных файлов с викторинами.
 
     Args:
-        folder_path (str, optional):путь к папке с тестами. По умолчанию "tests".
+        folder_path (str, optional): путь к папке с тестами. По умолчанию "tests".
 
     Returns:
         list: список имен JSON-файлов с викторинами
