@@ -4,6 +4,12 @@
 # бд создается 
 CREATE DATABASE quizapp_db;
 
+#в смд бд 
+\dt
+SELECT * FROM quizzes;
+SELECT * FROM questions;
+SELECT * FROM quiz_results;
+
 # выйти 
 \q
 
