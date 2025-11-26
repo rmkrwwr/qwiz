@@ -1,5 +1,5 @@
 # PostgreSQL:
-psql -U postgres
+"C:\Program Files\PostgreSQL\17\bin\psql.exe" -U postgres
 
 # бд создается 
 CREATE DATABASE quizapp_db;
