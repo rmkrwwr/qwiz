@@ -53,3 +53,25 @@ python -m unittest discover tests -f
     TestResults - проверяет показ результатов
 
     TestCommands - проверяет команды приложения
+
+
+
+
+# чтобы норм было все 
+C:\Users\ROOT>chcp 1251
+Текущая кодовая страница: 1251
+
+C:\Users\ROOT>"C:\Program Files\PostgreSQL\17\bin\psql.exe" -U postgres
+Пароль пользователя postgres:
+psql (17.0)
+postgres=# \c quizapp_db
+Вы подключены к базе данных "quizapp_db" как пользователь "postgres".
+quizapp_db=# SELECT * FROM quizzes;
+ id |   name    | description
+----+-----------+-------------
+  5 | хайп дгту | Вкб32 опрос
+  6 | дгту      | опрос
+(2 строки)
+
+
+quizapp_db=#
